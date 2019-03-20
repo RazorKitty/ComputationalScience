@@ -1,2 +1,2 @@
 #!/bin/env sh
-gcc -o exy main.c && ./exy.exe && cat output.txt
+gcc -o exy main.c -lm && chmod +x exy && ./exy && cat output.txt
