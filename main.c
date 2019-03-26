@@ -1,11 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<complex.h>
 
-double random_double() {
-    double range = RAND_MAX - 0;
-    double div = RAND_MAX / range;
-    return 0 + (rand() / div);
+double complex random_double() {
+    return 1 / (double complex)rand();
 }
 
 int main(/*int argc, char **argv*/) {
@@ -29,27 +28,32 @@ int main(/*int argc, char **argv*/) {
             fprintf(file1, "%lf\t%lf\t%lf\n", T, x[k], u);
     }
     rewind(file1);
+
+
+
+
     FILE *file2 = fopen("noisy.csv", "w");
-    int iteration = 1;
-    double SD = 0.001;
-    double m = 0.00;
+    int iteration = 0;
+    double complex SD = 0.001;
+    double complex m = 0.00;
     double T_in, xK_in, u_in;
-    double A, B, z1, Xn;
-    double z2 = 0;
+    double complex A, B, z1, Xn;
+    double complex z2 = 0;
     while(fscanf(file1, "%lf %lf %lf", &T_in, &xK_in, &u_in) > 0) {
+        A = random_double() * (2.00 * M_PI);
+        B = SD * csqrt(-2.00 * clog(random_double()));
         if (!(iteration % 2)) {
             //do something
-            A = random_double() * (2 * M_PI);
-            B = SD * sqrt(-2 * log(random_double()));
-            z1 = B * sin(A) + m;
-            z2 = B * cos(A) + m;
+            z1 = B * csin(A) + m;
+            z2 = B * ccos(A) + m;
             Xn = xK_in + z1;
         } else {
             //do something else
             Xn = xK_in + z2;
         }
         ++iteration;
-        fprintf(file2, "%lf,%lf,%lf,%lf\n", T_in, xK_in, Xn ,u_in);
+        //printf("A,B\t%lf\t%lf\nz1,z2\t %lf\t%lf\n",creal(A),creal(B),creal(z1),creal(z2));
+        fprintf(file2, "%lf,%lf,%lf,%lf\n", T_in, xK_in, creal(Xn) ,u_in);
     }
     return 0;
 }

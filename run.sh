@@ -1,2 +1,2 @@
 #!/bin/env sh
-gcc -o exy main.c -lm && chmod +x exy && ./exy && cat output.txt
+rm -f output.txt noisy.csv && gcc -o exy main.c -lm && chmod +x exy && ./exy.exe && cat output.txt
