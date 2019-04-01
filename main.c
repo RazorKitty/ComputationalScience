@@ -2,9 +2,11 @@
 #include<stdlib.h>
 #include<math.h>
 #include<complex.h>
+#include<time.h>
 
 double complex random_double() {
-    return 1 / (double complex)rand();
+    srand(time(0));
+    return (double complex)1.00 / ((double complex)rand());
 }
 
 int main(/*int argc, char **argv*/) {
@@ -40,7 +42,7 @@ int main(/*int argc, char **argv*/) {
     double complex A, B, z1, Xn;
     double complex z2 = 0;
     while(fscanf(file1, "%lf %lf %lf", &T_in, &xK_in, &u_in) > 0) {
-        A = random_double() * (2.00 * M_PI);
+        A = (random_double()* (2.00 * M_PI));
         B = SD * csqrt(-2.00 * clog(random_double()));
         if (!(iteration % 2)) {
             //do something
@@ -52,7 +54,7 @@ int main(/*int argc, char **argv*/) {
             Xn = xK_in + z2;
         }
         ++iteration;
-        //printf("A,B\t%lf\t%lf\nz1,z2\t %lf\t%lf\n",creal(A),creal(B),creal(z1),creal(z2));
+        printf("A,B\t%lf\t%lf\nz1,z2\t %lf\t%lf\n",creal(A),creal(B),creal(z1),creal(z2));
         fprintf(file2, "%lf,%lf,%lf,%lf\n", T_in, xK_in, creal(Xn) ,u_in);
     }
     return 0;
