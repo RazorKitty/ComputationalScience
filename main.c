@@ -5,8 +5,7 @@
 #include<time.h>
 
 double complex random_double() {
-    srand(time(0));
-    return (double complex)1.00 / ((double complex)rand());
+    return (double complex)rand()/((double complex)RAND_MAX/(double complex)1.00);
 }
 
 int main(/*int argc, char **argv*/) {
@@ -33,7 +32,7 @@ int main(/*int argc, char **argv*/) {
 
 
 
-
+    srand(time(NULL));
     FILE *file2 = fopen("noisy.csv", "w");
     int iteration = 0;
     double complex SD = 0.001;
@@ -54,7 +53,7 @@ int main(/*int argc, char **argv*/) {
             Xn = xK_in + z2;
         }
         ++iteration;
-        printf("A,B\t%lf\t%lf\nz1,z2\t %lf\t%lf\n",creal(A),creal(B),creal(z1),creal(z2));
+//        printf("A,B\t%lf\t%lf\nz1,z2\t %lf\t%lf\n",creal(A),creal(B),creal(z1),creal(z2));
         fprintf(file2, "%lf,%lf,%lf,%lf\n", T_in, xK_in, creal(Xn) ,u_in);
     }
     return 0;
